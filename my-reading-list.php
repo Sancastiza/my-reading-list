@@ -45,3 +45,25 @@ function my_reading_list_register_book_post_type() {
         ) 
     );
 }
+
+/**
+ * Add featured image to the book post type
+ */
+add_action( 'rest_api_init', 'my_reading_list_register_book_featured_image' );
+function my_reading_list_register_book_featured_image() {
+    register_rest_field(
+        'book',
+        'featured_image_src',
+        array(
+            'get_callback' => 'my_reading_list_get_book_featured_image_src',
+            'schema'       => null,
+        )
+    );
+}
+function my_reading_list_get_book_featured_image_src( $object ) {
+    if ( $object['featured_media'] ) {
+        $img = wp_get_attachment_image_src( $object['featured_media'], 'medium' );
+        return $img[0];
+    }
+    return false;
+}
