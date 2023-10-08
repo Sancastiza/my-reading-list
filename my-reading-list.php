@@ -20,7 +20,28 @@
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
-function create_block_my_reading_list_block_init() {
-	register_block_type( __DIR__ . '/build' );
+add_action( 'init', 'my_reading_list_reading_list_block_init' );
+function my_reading_list_reading_list_block_init() {
+    register_block_type( __DIR__ . '/build' );
 }
-add_action( 'init', 'create_block_my_reading_list_block_init' );
+
+
+/**
+ * Register a book custom post type
+ */
+add_action( 'init', 'my_reading_list_register_book_post_type' );
+function my_reading_list_register_book_post_type() {
+    register_post_type(
+        'book',
+        array(
+            'labels'       => array(
+                'name'          => 'Books',
+                'singular_name' => 'Book',
+            ),
+            'public'       => true,
+            'has_archive'  => true,
+            'supports'     => array( 'title', 'editor', 'thumbnail' ),
+            'show_in_rest' => true
+        ) 
+    );
+}
