@@ -15,6 +15,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { store as coreDataStore } from '@wordpress/core-data';
 
+import BookList from './components/BookList';
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -31,7 +32,7 @@ import './editor.scss';
  *
  * @return {Element} Element to render.
  */
-export default function Edit() {
+export default function Edit( { attributes } ) {
 
     const books = useSelect(
         select =>
@@ -39,24 +40,10 @@ export default function Edit() {
         []
     );
 
-    if ( ! books ) {
-        return (
-            <div {...useBlockProps()}>
-                <p>{__('My Reading List – hello from the editor!', 'my-reading-list')}</p>
-            </div>
-        );
-    }
-
     return (
-        <div {...useBlockProps()}>
-            <p>{__('My Reading List – hello from the editor!', 'my-reading-list')}</p>
-            { books.map( ( book ) => (
-                <div>
-                    <h2>{ book.title.rendered }</h2>
-                    <img src={ book.featured_image_src }/>
-                    <div dangerouslySetInnerHTML={ { __html: book.content.rendered } }></div>
-                </div>
-            ) ) }
+        <div { ...useBlockProps() }>
+            <p>{ 'My Reading List – hello from the edit component!' }</p>
+            <BookList books={ books } attributes={ attributes } />
         </div>
     );
-}	
+}

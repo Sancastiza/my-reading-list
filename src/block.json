@@ -8,6 +8,16 @@
 	"category": "widgets",
 	"icon": "smiley",
 	"example": {},
+	"attributes": {
+		"showContent": {
+		  "type": "boolean",
+		  "default": true
+		},
+		"showImage": {
+		  "type": "boolean",
+		  "default": true
+		}
+	},
 	"supports": {
 		"html": false,
 		"align": true,
