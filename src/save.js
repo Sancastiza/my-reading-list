@@ -1,3 +1,5 @@
+import { __ } from '@wordpress/i18n';
+
 /**
  * React hook that is used to mark the block wrapper element.
  * It provides all the necessary props like the class name.
@@ -5,6 +7,9 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps } from '@wordpress/block-editor';
+import { select } from '@wordpress/data';
+
+import BookList from './components/BookList';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -13,12 +18,14 @@ import { useBlockProps } from '@wordpress/block-editor';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
  *
- * @return {Element} Element to render.
+ * @return {WPElement} Element to render.
  */
-export default function save() {
+export default function save({ attributes }) {
+	const books = select( 'core' ).getEntityRecords( 'postType', 'book' );
 	return (
-		<p { ...useBlockProps.save() }>
-			{ 'My Reading List – hello from the saved content!' }
-		</p>
+		<div {...useBlockProps.save()}>
+			<p>{__( 'My Reading List – hello from the saved content!', 'my-reading-list' )}</p>
+			<BookList books={ books } attributes={ attributes } />
+		</div>
 	);
 }
